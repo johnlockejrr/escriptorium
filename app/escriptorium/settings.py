@@ -114,6 +114,7 @@ TEMPLATES = [
                 'escriptorium.context_processors.enable_text_alignment',
                 'escriptorium.context_processors.enable_markdown_export',
                 'escriptorium.context_processors.enable_tei_export',
+                'escriptorium.context_processors.models_version_retention',
             ],
         },
     },
@@ -218,6 +219,8 @@ CELERY_RESULT_BACKEND = 'redis://%s:%d' % (REDIS_HOST, REDIS_PORT)
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_TRACK_STARTED = True
+CELERYD_STATE_DB = "celery_state.db"
 CELERY_ACKS_LATE = True
 
 # time in seconds a user has to wait after a task is started before being able to recover
@@ -335,6 +338,10 @@ LOGGING = {
         }
     },
     'loggers': {
+        '': {
+            'handlers': ['console_debug'],
+            'propagate': True,
+        },
         'kraken': {
             'handlers': ['console', 'mail_admins'],
             'propagate': True,
@@ -397,6 +404,10 @@ VERSIONING_DEFAULT_SOURCE = 'eScriptorium'
 
 VERSION_DATE = os.getenv('VERSION_DATE', '<development>')
 KRAKEN_VERSION = 'Kraken version ' + importlib.metadata.version('kraken')
+
+# Numbers of days to retain all epochs of models before the management command can clean them up.
+# 0 means nothing will be deleted even if the cron runs.
+MODELS_VERSION_RETENTION = int(os.getenv('MODELS_VERSION_RETENTION', 30))
 
 IIIF_IMPORT_QUALITY = 'full'
 
