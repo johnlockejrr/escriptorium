@@ -58,11 +58,13 @@ def format_xml_contents(generated_content, expected_filename):
         get_xml_str(open(f"{SAMPLES_DIR}/{expected_filename}", "rb").read()),
     ]
 
+
 def pagexml_adapt_document_id(pagexml_str_bytes, docid=1):
     pagexml_str = pagexml_str_bytes.decode("utf-8")
     pattern = r"test_media/documents/\d+/default"
     modified_xml = re.sub(pattern, f"test_media/documents/{docid}/default", pagexml_str)
     return modified_xml.encode('utf-8')
+
 
 @patch(
     "imports.templatetags.export_tags.timezone.now",
