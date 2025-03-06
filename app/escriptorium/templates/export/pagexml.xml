@@ -5,7 +5,7 @@
 	<Created>{{ part.created_at|date:'c' }}</Created>
         <LastChange>{{ part.updated_at|date:'c' }}</LastChange>
   </Metadata>
-  <Page imageFilename="{{ part.filename }}" imageWidth="{{ part.image.width  }}" imageHeight="{{ part.image.height  }}">
+  <Page imgURL="{{ img_base_url }}{{ part.image }}" imageFilename="{{ part.filename }}" imageWidth="{{ part.image.width  }}" imageHeight="{{ part.image.height  }}">
     {% for block in blocks %}
     <TextRegion id="{{ block.external_id }}"  {% if block.typology %}custom="structure {type:{{block.typology.name}};}"{% endif %}>
       <Coords points="{% pagexml_points block.box %}"/>

@@ -6,7 +6,7 @@
     <Created>2022-01-01T00:00:00+00:00</Created>
     <LastChange>2022-01-01T00:00:00+00:00</LastChange>
   </Metadata>
-  <Page imageFilename="default.png" imageWidth="864" imageHeight="206">
+  <Page imgURL="http://localhost:8080/test_media/documents/1/default.png" imageFilename="default.png" imageWidth="864" imageHeight="206">
     <TextRegion id="eSc_textblock_02" custom="structure {type:body;}">
       <Coords points="90,125 560,215"/>
       <TextLine id="eSc_line_02">

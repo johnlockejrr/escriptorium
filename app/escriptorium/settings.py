@@ -285,8 +285,9 @@ if CUSTOM_HOME:
     # custom homepage directory
     STATICFILES_DIRS.append(os.path.join(BASE_DIR, 'homepage'))
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+IMAGE_BASE_URL = os.path.join(os.getenv('IMAGE_BASE_URL', 'http://localhost:8080'), MEDIA_URL)
 
 LOGGING = {
     'version': 1,

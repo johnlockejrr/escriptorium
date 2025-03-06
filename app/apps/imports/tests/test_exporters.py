@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 import shutil
 from unittest.mock import patch
 from zipfile import ZipFile
@@ -53,9 +54,16 @@ def get_xml_str(file_content):
 
 def format_xml_contents(generated_content, expected_filename):
     return [
-        get_xml_str(generated_content),
+        pagexml_adapt_document_id(get_xml_str(generated_content)),
         get_xml_str(open(f"{SAMPLES_DIR}/{expected_filename}", "rb").read()),
     ]
+
+
+def pagexml_adapt_document_id(pagexml_str_bytes, docid=1):
+    pagexml_str = pagexml_str_bytes.decode("utf-8")
+    pattern = r"test_media/documents/\d+/default"
+    modified_xml = re.sub(pattern, f"test_media/documents/{docid}/default", pagexml_str)
+    return modified_xml.encode('utf-8')
 
 
 @patch(
@@ -251,6 +259,7 @@ class ExportersTestCase(CoreFactoryTestCase):
                 archive.namelist(),
                 [self.part_xml_export_filename, self.part2_xml_export_filename, "METS.xml"],
             )
+
             self.assertEqual(*format_xml_contents(
                 archive.read(self.part_xml_export_filename),
                 "pagexml_export_full_part1.xml"
