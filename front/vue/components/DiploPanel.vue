@@ -316,8 +316,11 @@ export default Vue.extend({
             this.debouncedSave();
         },
 
-        appendLine(pos) {
+        appendLine(pos,linePk) {
             let div = document.createElement('div');
+            if (linePk !== undefined && linePk !== null) {
+                div.setAttribute('data-line-pk', linePk);
+            }
             div.appendChild(document.createElement('br'));
             if (pos === undefined) {
                 this.$refs.diplomaticLines.appendChild(div);

@@ -1,5 +1,7 @@
 <template>
-</template>
+    <div class="diplo-line" :data-line-pk="line.pk">
+    </div>
+  </template>
 
 <script>
 import { LineBase } from '../../src/editor/mixins.js';
@@ -22,7 +24,7 @@ export default Vue.extend({
     },
     mounted() {
         Vue.nextTick(function() {
-            this.$parent.appendLine();
+            this.$parent.appendLine(null, this.line.pk);
             if (this.line.currentTrans) this.setElContent(this.line.currentTrans.content);
         }.bind(this));
     },
@@ -36,10 +38,18 @@ export default Vue.extend({
         'line.order': function(n, o) {
             // make sure it's at the right place,
             // in case it was just created or the ordering got recalculated
-            this.$el.parentNode.insertBefore(
-                this.$el,
-                this.$el.parentNode.children[this.line.order]);
-            this.setElContent(this.line.currentTrans.content);
+            let lineEl = this.getEl();
+            if (lineEl && lineEl.parentNode) {
+                let parent = lineEl.parentNode;
+                // remove the element then insert it at the new index n
+                parent.removeChild(lineEl);
+                if (parent.children[n]) {
+                    parent.insertBefore(lineEl, parent.children[n]);
+                } else {
+                    parent.appendChild(lineEl);
+                }
+                this.setElContent(this.line.currentTrans.content);
+            }
         },
         'line.currentTrans': function(n, o) {
             if (n!=undefined) {
@@ -49,7 +59,7 @@ export default Vue.extend({
     },
     methods: {
         getEl() {
-            return this.$parent.$refs.diplomaticLines.querySelector('div:nth-child('+parseInt(this.line.order+1)+')');
+            return this.$parent.$refs.diplomaticLines.querySelector('div[data-line-pk="' + this.line.pk + '"]');
         },
         setElContent(content) {
             let line = this.getEl();
