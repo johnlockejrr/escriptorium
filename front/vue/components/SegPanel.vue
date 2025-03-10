@@ -445,6 +445,10 @@ export default Vue.extend({
     document.addEventListener(
       "keyup",
       function (ev) {
+        // if the focus is on a text field or contentEditable element then skip the segmentation panel undo
+        if (document.activeElement && (document.activeElement.isContentEditable || document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA")) {
+          return;
+       }
         if (ev.ctrlKey) {
           if (ev.key == "z") this.undo();
           if (ev.key == "y") this.redo();
