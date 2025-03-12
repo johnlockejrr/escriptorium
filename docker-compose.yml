@@ -2,7 +2,7 @@ version: "3.9"
 
 x-app:
   &app
-  image: registry.gitlab.com/scripta/escriptorium:latest
+  #image: registry.gitlab.com/scripta/escriptorium:latest
   build:
     context: .
   env_file: variables.env
@@ -36,7 +36,7 @@ services:
     image: "docker.io/redis:alpine"
 
   nginx:
-    image: registry.gitlab.com/scripta/escriptorium/nginx
+    #image: registry.gitlab.com/scripta/escriptorium/nginx
     build: ./nginx
     environment:
       - SERVERNAME=${DOMAIN:-localhost}
@@ -87,7 +87,7 @@ services:
 
   mail:
     build: ./exim
-    image: registry.gitlab.com/scripta/escriptorium/mail
+    #image: registry.gitlab.com/scripta/escriptorium/mail
     expose:
       - 25
     environment:
