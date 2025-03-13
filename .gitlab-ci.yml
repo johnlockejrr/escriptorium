@@ -79,7 +79,7 @@ build:
     - npm run production
 
 .docker-build:
-  stage: build
+  stage: test # trashme
   image: docker:19.03.1
   rules:
     # skip when building gitlab pages
@@ -91,7 +91,7 @@ build:
     - docker:dind
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_HOST: tcp://docker:2376/
 
 docker-build-app:
   extends: .docker-build
